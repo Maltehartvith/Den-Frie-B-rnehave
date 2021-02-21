@@ -51,8 +51,10 @@ public class Parent {
 
     @Override
     public String toString() {
-        return "Parents name: " + name + "\nPhone number: " + number +
-                "\nPersonal number: " + CPR + "\nChild: " + kid +"\n";
+        return "Parents name: " + name + "\nPersonal number: " + CPR +
+                "\nPhone number: " + number +"\nChild: " + kid +"\n";
     }
-
+    public String toStringToFile(){
+        return name + " " + CPR + " " + number + " " + kid.getCPR() + "\n";
+    }
 }

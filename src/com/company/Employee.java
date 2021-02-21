@@ -49,7 +49,10 @@ public class Employee implements Comparable<Employee>{
         return "Employee name: " + name + "\nAge: " + age + "\nPersonal number: " +
                 CPR + "\nPhone number: " + number;
     }
-    public int compareTo(Employee o) {
+    public String toStringToFile() {
+        return name + " " + age + " " + number + " " + CPR + "\n";
+    }
+        public int compareTo(Employee o) {
         return this.name.compareTo(o.name);
     }
 }
