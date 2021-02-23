@@ -2,15 +2,13 @@ package com.company;
 
 public class Employee implements Comparable<Employee>{
     private String name;
-    private int age;
-    private String CPR;
     private int number;
+    private String CPR;
 
-    public Employee(String name, int age, String CPR, int number) {
+    public Employee(String name, int number, String CPR) {
         this.name = name;
-        this.CPR = CPR;
-        this.age = age;
         this.number = number;
+        this.CPR = CPR;
     }
 
     public String getName() {
@@ -19,14 +17,6 @@ public class Employee implements Comparable<Employee>{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getCPR() {
@@ -46,13 +36,13 @@ public class Employee implements Comparable<Employee>{
     }
 
     public String toString() {
-        return "Employee name: " + name + "\nAge: " + age + "\nPersonal number: " +
-                CPR + "\nPhone number: " + number;
+        return "Employee name: " + name + "\nPhone number: " + number +
+                "\nPersonal number: " + CPR+"\n" ;
     }
     public String toStringToFile() {
-        return name + " " + age + " " + number + " " + CPR + "\n";
+        return name + " " + number + " " + CPR;
     }
-        public int compareTo(Employee o) {
-        return this.name.compareTo(o.name);
+    public int compareTo(Employee other) {
+        return this.name.compareTo(other.name);
     }
 }

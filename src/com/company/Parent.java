@@ -1,6 +1,6 @@
 package com.company;
 
-public class Parent {
+public class Parent{
     private String name;
     private int number;
     private String CPR;
@@ -10,11 +10,11 @@ public class Parent {
     public Parent(){
 
     }
-    public Parent(String name, int number, String CPR) {
+    public Parent(String name, int number, String CPR) throws NullPointerException {
         this.name = name;
         this.number = number;
         this.CPR = CPR;
-        this.kid = kid;
+        this.kid = null;
     }
 
     public String getName() {
@@ -33,7 +33,7 @@ public class Parent {
         this.CPR = CPR;
     }
 
-    public Child getKid() {
+    public Child getKid()throws NullPointerException {
         return kid;
     }
 
@@ -51,10 +51,16 @@ public class Parent {
 
     @Override
     public String toString() {
-        return "Parents name: " + name + "\nPersonal number: " + CPR +
-                "\nPhone number: " + number +"\nChild: " + kid +"\n";
+        return "Parents name: " + name +"\nPhone number: " + number +
+                "\nPersonal number: " + CPR + "\n" + kid +"\n";
     }
-    public String toStringToFile(){
-        return name + " " + CPR + " " + number + " " + kid.getCPR() + "\n";
+    public String toStringToFile()throws NullPointerException{
+        try {
+            return name + " " + CPR + " " + number + " " + kid.getCPR();
+        }catch (NullPointerException e){
+            System.out.println("One or more parents were stored without a child. Start the program and choose to" +
+                    " edit a parent, to properly appoint a child to the parent(s)");
+        }
+        return name + " " + CPR + " " + number + " " + null;
     }
 }

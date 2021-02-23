@@ -44,8 +44,9 @@ public class Child implements Comparable<Child>{
     public String toString(){
         return "Childs name: " + name + "\nAge: " + age + "\nPersonal number: " + CPR + "\n";
     }
-    public String toStringToFile(){ return  name + " " + age + " " + CPR + "\n";}
-    public int compareTo(Child o) {
-        return this.name.compareTo(o.name);
+    public String toStringToFile(){ return  name + " " + age + " " + CPR;}
+    public String toStringCPRname(){return null;}
+    public int compareTo(Child other) {
+        return this.name.compareTo(other.name);
     }
 }
