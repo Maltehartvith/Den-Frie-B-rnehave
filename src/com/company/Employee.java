@@ -1,5 +1,9 @@
 package com.company;
 
+import java.io.PrintStream;
+
+import static java.lang.System.*;
+
 public class Employee implements Comparable<Employee>{
     private String name;
     private int number;
@@ -45,5 +49,14 @@ public class Employee implements Comparable<Employee>{
     public String toStringCPRname(){return "Name: " + name + "\nPersonal number: " + CPR + "\n";}
     public int compareTo(Employee other) {
         return this.name.compareTo(other.name);
+    }
+    public String toStringName(){
+        String name = getName();
+        String newName = "";
+        for(int i = 0; i < name.length(); i++){
+             newName= name.substring(0, name.indexOf(" ")+2);
+            return newName;
+        }
+        return newName;
     }
 }
