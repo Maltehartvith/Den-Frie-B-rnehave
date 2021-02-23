@@ -54,6 +54,7 @@ public class Parent{
         return "Parents name: " + name +"\nPhone number: " + number +
                 "\nPersonal number: " + CPR + "\n" + kid +"\n";
     }
+    public String toStringCPRname(){return "Name: " + name + "\nPersonal number: " + CPR + "\n";}
     public String toStringToFile()throws NullPointerException{
         try {
             return name + " " + CPR + " " + number + " " + kid.getCPR();

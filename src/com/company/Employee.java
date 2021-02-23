@@ -42,6 +42,7 @@ public class Employee implements Comparable<Employee>{
     public String toStringToFile() {
         return name + " " + number + " " + CPR;
     }
+    public String toStringCPRname(){return "Name: " + name + "\nPersonal number: " + CPR + "\n";}
     public int compareTo(Employee other) {
         return this.name.compareTo(other.name);
     }

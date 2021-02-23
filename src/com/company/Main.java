@@ -10,10 +10,13 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
         LinkedList<Child> childs = readChildFromFile();
-        ArrayList<Child> waitlist = new ArrayList<>();
+        ArrayList<Child> waitlist = readWaitListFromFile();;
         ArrayList<Employee> employees = readEmployeeFromFile();
         LinkedList<Parent> parents = readParentFromFile(childs);
-        readWaitListFromFile(waitlist);
+        /*Employee[] array = employees.toArray(new Employee[0]);
+        for (Employee n : array) {
+            System.out.println(n);
+        }*/
 
         mainMenu(scan, childs, waitlist, employees, parents);
 
@@ -25,12 +28,7 @@ public class Main {
         int answer = 1;
 
         while (answer != 0) {
-            System.out.println("\n***** Roskilde frie børnehave hovedmenu *****\n" +
-                    "\nType 1 for child menu." +
-                    "\nType 2 for parent menu" +
-                    "\nType 3 for coworker menu." +
-                    "\nType 4 to print lists." +
-                    "\nType 0 to terminate program.");
+            printMainMenu();
             answer = scan.nextInt();
 
             switch (answer) {
@@ -67,18 +65,12 @@ public class Main {
                     }
                     break;
                 case 2:
-                    System.out.println("\n******* Parent Menu *******");
-                    System.out.println();
-                    System.out.println("Type 1 to register parent.");
-                    System.out.println("Type 2 to edit a parents information.");
-                    System.out.println("Type 0 to return to ");
+                    printParentsMenu();
                     int panswer = scan.nextInt();
-
                     while (panswer != 0) {
                         if (panswer == 1) {
                             System.out.println("You have chosen to register parent.");
                             System.out.println("-----------------------------------");
-                            //parents.add(RegisterParent(scan, childs));
                             parents.add(RegisterParent(scan, childs));
 
                         }if (panswer == 2) {
@@ -86,23 +78,18 @@ public class Main {
                             System.out.println("---------------------------------");
                             editParent(scan, parents, childs);
 
+                        }if(panswer == 3) {
+                            System.out.println("You have chosen to delete a parent");
+                            System.out.println("----------------------------------");
+                            deleteParent(scan, parents);
                         }
-                        System.out.println("\n***** Parent Menu *****");
-                        System.out.println();
-                        System.out.println("Type 1 to register parent.");
-                        System.out.println("Type 2 to edit a parents information.");
-                        System.out.println("Type 0 to return to ");
+                        printParentsMenu();
                         panswer = scan.nextInt();
                     }
                     break;
 
                 case 3:
-                    System.out.println("\n******* Employee Menu *******");
-                    System.out.println();
-                    System.out.println("Type 1 to add a new employee");
-                    System.out.println("Type 2 to edit an employee");
-                    System.out.println("Type 3 to delete an employee");
-                    System.out.println("Type 0 to return to main menu.");
+                    printEmployeesMenu();
                     int eanswer = scan.nextInt();
                     while (eanswer != 0) {
                         if (eanswer == 1) {
@@ -123,12 +110,7 @@ public class Main {
                         }else if (eanswer == 0) {
                             break;
                         }
-                        System.out.println("\n******* Employee Menu *******");
-                        System.out.println();
-                        System.out.println("Type 1 to add a new employee");
-                        System.out.println("Type 2 to edit an employee");
-                        System.out.println("Type 3 to delete an employee");
-                        System.out.println("Type 0 to return to main menu.");
+                        printEmployeesMenu();
                         eanswer = scan.nextInt();
                     }
 
@@ -309,7 +291,6 @@ public class Main {
         return childs;
     }
 
-
     public static LinkedList<Parent> readParentFromFile(LinkedList<Child> childs) throws FileNotFoundException {
         LinkedList<Parent> parents = new LinkedList<>();
         Scanner scan = new Scanner(new File("ParentList.txt"));
@@ -344,7 +325,8 @@ public class Main {
         return parents;
     }
 
-    public static ArrayList<Child> readWaitListFromFile(ArrayList<Child> waitlist) throws FileNotFoundException {
+    public static ArrayList<Child> readWaitListFromFile() throws FileNotFoundException {
+        ArrayList<Child> waitlist = new ArrayList<>();
         Scanner scan = new Scanner(new File("waitList.txt"));
         while (scan.hasNextLine()) {
             String line = scan.nextLine();
@@ -395,13 +377,11 @@ public class Main {
                     Collections.sort(childs);
                     System.out.println(childs.get(i));
                 }
-            }
-            if (answer.equals("2")) {
+            }if(answer.equals("2")) {
                 for (int i = 0; i < waitlist.size(); i++) {
                     System.out.println(waitlist.get(i));
                 }
-            }
-            if (answer.equals("3")) {
+            }if(answer.equals("3")) {
                 TreeMap<String, Integer> phoneList = new TreeMap<>();
                 for (Parent par : parent) {
                     phoneList.put(par.getName(), par.getNumber());
@@ -409,13 +389,11 @@ public class Main {
                 for (String par : phoneList.keySet()) {
                     System.out.println("Parent: " + par + "\nPhone number: " + phoneList.get(par) + "\n");
                 }
-            }
-            if (answer.equals("4")) {
+            }if(answer.equals("4")) {
                 for (int i = 0; i < parent.size(); i++) {
                     System.out.println(parent.get(i));
                 }
-            }
-            if (answer.equals("5")) {
+            }if(answer.equals("5")) {
                 for (int i = 0; i < employees.size(); i++) {
                     Collections.sort(employees);
                     System.out.println(employees.get(i));
@@ -464,6 +442,25 @@ public class Main {
             }
         }
     }
+    public static void deleteParent(Scanner scan, LinkedList<Parent> parents) {
+        for (int i = 0; i < parents.size(); i++) {
+            System.out.println(parents.get(i));
+        }
+        System.out.println("Enter personal number of the parent you want to remove from the list");
+        boolean foundCPR = false;
+        String personalNumber = scan.next();
+        for (int i = 0; i < parents.size(); i++) {
+            if (parents.get(i).getCPR().equals(personalNumber)) {
+                parents.remove(i);
+                foundCPR = true;
+                break;
+            }
+        }
+        if (!foundCPR) {
+            System.out.println("This personal number does not exists");
+        }
+        System.out.println(parents);
+    }
 
     public static void printPhoneList(LinkedList<Parent> parent) {
         TreeMap<String, Integer> phoneList = new TreeMap<>();
@@ -473,21 +470,10 @@ public class Main {
         System.out.println(phoneList);
     }
 
-    public static void childrensMenu() {
-        System.out.printf("%21s %n", "\n********* Child Menu *********");
-        System.out.println("\nType 1 to register a new child.\n" +
-                "Type 2 to edit a childs information.\nType 3 to remove child" +
-                "\nType 4 to registre a child to the waiting list to\nType 0 to return to main menu.");
-    }
-
-    public static void printlistmenu() {
-        System.out.println("Which list do you want see?\n---------------------------\n" +
-                "1. Childrens list.\n2. The waiting list.\n3. The parent phone list.\n4. The parent list." +
-                "\n5. The employee list\n0. Exit to main menu.");
-    }
-
-
     public static void editParent(Scanner scan, LinkedList<Parent> parent, LinkedList<Child> childs) {
+        for(int i = 0; i < parent.size(); i++){
+            System.out.println(parent.get(i).toStringCPRname());
+        }
         System.out.println("Enter the personal number of the parent you wish to edit: ");
         String CPR = scan.next();
 
@@ -540,6 +526,9 @@ public class Main {
 
 
     public static void editEmployee(Scanner scan, ArrayList<Employee> employees) {
+        for(int i = 0; i < employees.size(); i++){
+            System.out.println(employees.get(i).toStringCPRname());
+        }
         System.out.println("Enter the personal number of the employee you wish to edit: ");
         String CPR = scan.next();
 
@@ -578,15 +567,16 @@ public class Main {
     }
 
     public static void editChild(Scanner scan, LinkedList<Child> childs) {
-        System.out.print("Enter the first name of the child you wish to edit: ");
-        String fname = scan.next();
-        System.out.print("Enter the last name of the child you wish to edit: ");
-        String lname = scan.next();
-        String name = fname + " " + lname;
+        for(int i = 0; i < childs.size(); i++){
+            System.out.println(childs.get(i).toStringCPRname());
+        }
+        System.out.println("Enter the personal number of the child you wish to edit: ");
+        String CPR = scan.next();
 
         for (int i = 0; i < childs.size(); i++) {
-            if (childs.get(i).getName().equals(name)) {
+            if (childs.get(i).getCPR().equals(CPR)) {
                 System.out.println("\n" + childs.get(i) + "\n");
+
                 int svar = 1;
                 while (svar != 0) {
                     System.out.println("Type 1 to edit name.\nType 2 to edit age.\nType 3 to edit CPR\nType 0 to return\n");
@@ -616,5 +606,37 @@ public class Main {
                 }
             }
         }
+    }
+
+    public static void printMainMenu(){
+        System.out.println("\n***** Roskilde frie børnehave hovedmenu *****\n" +
+                "\nType 1 for child menu." +
+                "\nType 2 for parent menu" +
+                "\nType 3 for coworker menu." +
+                "\nType 4 to print lists." +
+                "\nType 0 to terminate program.");
+    }
+    public static void childrensMenu() {
+        System.out.printf("%21s %n", "\n********* Child Menu *********");
+        System.out.println("\nType 1 to register a new child.\n" +
+                "Type 2 to edit a childs information.\nType 3 to remove child" +
+                "\nType 4 to registre a child to the waiting list to\nType 0 to return to main menu.");
+    }
+
+    public static void printParentsMenu(){
+        System.out.println("\n***** Parent Menu *****\n\nType 1 to register parent." +
+                            "\nType 2 to edit a parents information.\nType 0 to return to ");
+    }
+
+    public static void printEmployeesMenu(){
+        System.out.println("\n******* Employee Menu *******\n" +
+                            "\nType 1 to add a new employee\nType 2 to edit an employee" +
+                            "\nType 3 to delete an employee\nType 0 to return to main menu.");
+    }
+
+    public static void printlistmenu() {
+        System.out.println("Which list do you want see?\n---------------------------\n" +
+                "1. Childrens list.\n2. The waiting list.\n3. The parent phone list.\n4. The parent list." +
+                "\n5. The employee list\n0. Exit to main menu.");
     }
 }
