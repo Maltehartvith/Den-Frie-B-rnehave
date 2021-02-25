@@ -287,7 +287,7 @@ public class Main {
             for (int i = 0; i < arr.length; i++) {
                 String s = "";
                 for (int j = 0; j < arr[i].length; j++) {
-                    s += arr[i][j] + "|";
+                    s += arr[i][j] + ";";
                 }
                 output.println(s);
             }

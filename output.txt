@@ -1,6 +1,6 @@
-Week: 3;Monday;Tuesday;Wednesday;Thursday;Friday;
-7:00-14:00;null;null;null;null;null;
-7:00-14:00;null;null;null;null;null;
-8:30-15:30;null;null;null;null;null;
-10:00-17:00;Birthe L;null;null;null;null;
-10:00-17:00;null;null;null;null;null;
+Week: 7;Monday;Tuesday;Wednesday;Thursday;Friday;
+7:00-14:00;sven s;Birthe L;Karl M;sven s;Anders R;
+7:00-14:00;Birthe L;Karl M;Anders R;Birthe L;Emil L;
+8:30-15:30;Karl M;sven s;Birthe L;Anders R;Karl M;
+10:00-17:00;Anders R;Anders R;sven s;Karl M;Birthe L;
+10:00-17:00;Emil L;Emil L;Emil L;Emil L;sven s;
