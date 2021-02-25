@@ -7,13 +7,15 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Schedule {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         Scanner scan = new Scanner(System.in);
         ArrayList<Employee> employees = readEmployeeFromFile();
         Employee[] array = employees.toArray(new Employee[10]);
         String[][] arr = new String[6][6];
+        //readScheduleFromFile(arr);
 
         writeToFileSchedule(schedule(arr, array, scan));
+
 
     }
     //sætter 1 plads tilbage i listen
@@ -59,7 +61,8 @@ public class Schedule {
             boolean contWhile = true;
             while(contWhile) {
                 System.out.println("What day do you want to add " + employee[employeeIndex].toStringName()
-                        + " to?\nType -1 to exit to main menu\nType 0 to go back to change the employee\n\n1. Monday\n2. Tuesday\n3. Wednesday\n4. Thursday\n5. Friday");
+                        + " to?\nType -1 to exit to main menu\nType 0 to go back to change the employee\n\n" +
+                        "1. Monday\n2. Tuesday\n3. Wednesday\n4. Thursday\n5. Friday");
                 int day = scan.nextInt();
                 if (day == -1) {
                     stop = true;
@@ -199,49 +202,30 @@ public class Schedule {
     }
 
     public static void writeToFileSchedule(String[][] arr) throws FileNotFoundException {
-        try{
-        PrintStream output = new PrintStream(new File("output.txt"));
+            try{
+                PrintStream output = new PrintStream(new File("output.txt"));
                 for (int i = 0; i < arr.length; i++) {
                     String s = "";
                     for (int j = 0; j < arr[i].length; j++) {
-                        s += arr[i][j] + " ";
+                        s += arr[i][j] + "|";
                     }
                     output.println(s);
                 }
                 output.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
     }
 
-        /*PrintStream write = new PrintStream(new File("Schedule.txt"));
-
-        for (int i = 0; i < arr.length; i++) {
-            for(int j = 0; j < i; j++) {
-                write.println(arr[i][j]);
+    public static void readScheduleFromFile(String[][] arr) throws IOException {
+        Scanner load = new Scanner(new File("output.txt"));
+        load.useDelimiter("|");
+        for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr[i].length; j++){
+                arr[i][j] = load.next();
             }
         }
-
-        write.close();*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
     public static ArrayList<Employee> readEmployeeFromFile() throws FileNotFoundException {
         Scanner scan = new Scanner(new File("EmployeeList.txt"));
