@@ -12,9 +12,10 @@ public class Schedule {
         ArrayList<Employee> employees = readEmployeeFromFile();
         Employee[] array = employees.toArray(new Employee[10]);
         String[][] arr = new String[6][6];
-        //readScheduleFromFile(arr);
+        readScheduleFromFile(arr);
+        //System.out.println(Arrays.deepToString(arr));
 
-        writeToFileSchedule(schedule(arr, array, scan));
+        //writeToFileSchedule(schedule(arr, array, scan));
 
 
     }
@@ -207,7 +208,7 @@ public class Schedule {
                 for (int i = 0; i < arr.length; i++) {
                     String s = "";
                     for (int j = 0; j < arr[i].length; j++) {
-                        s += arr[i][j] + "|";
+                        s += arr[i][j] + ";";
                     }
                     output.println(s);
                 }
@@ -219,11 +220,20 @@ public class Schedule {
 
     public static void readScheduleFromFile(String[][] arr) throws IOException {
         Scanner load = new Scanner(new File("output.txt"));
-        load.useDelimiter("|");
+        load.useDelimiter(";");
         for(int i = 0; i < arr.length; i++){
+
             for(int j = 0; j < arr[i].length; j++){
                 arr[i][j] = load.next();
             }
+            load.nextLine();
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[0].length; j++) {
+                    System.out.printf("%11s", arr[i][j]);
+            }
+            System.out.println();
         }
     }
 

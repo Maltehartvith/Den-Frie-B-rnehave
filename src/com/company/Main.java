@@ -6,7 +6,7 @@ import java.io.*;
 
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException, NullPointerException {
+    public static void main(String[] args) throws IOException, NullPointerException {
 
         Scanner scan = new Scanner(System.in);
         LinkedList<Child> childs = readChildFromFile();
@@ -14,10 +14,6 @@ public class Main {
         ArrayList<Employee> employees = readEmployeeFromFile();
         LinkedList<Parent> parents = readParentFromFile(childs);
         String[][] scheduleArray = new String[6][6];
-        /*Employee[] array = employees.toArray(new Employee[0]);
-        for (Employee n : array) {
-            System.out.println(n);
-        }*/
 
         mainMenu(scan, childs, waitlist, employees, parents, scheduleArray);
 
@@ -27,7 +23,7 @@ public class Main {
     // Metode der indeholder vores main menu
     public static void mainMenu(Scanner scan, LinkedList<Child> childs, ArrayList<Child> waitlist,
                                 ArrayList<Employee> employees, LinkedList<Parent> parents, String[][] scheduleArray)
-                                    throws FileNotFoundException {
+            throws IOException {
         int answer = 1;
 
         while (answer != 0) {
@@ -37,26 +33,26 @@ public class Main {
             switch (answer) {
                 case 1:
                     childrensMenu();
-                    int canswer = scan.nextInt();
+                    int cAnswer = scan.nextInt();
 
-                    while (canswer != 0) {
-                        if (canswer == 1) {
+                    while (cAnswer != 0) {
+                        if (cAnswer == 1) {
                             System.out.println("You have chosen to register a child");
                             System.out.println("-----------------------------------");
                             RegisterChild(scan, childs);
 
-                        }if (canswer == 2) {
+                        }if (cAnswer == 2) {
                             Child c1 = childs.get(0);
                             System.out.println("You have chosen to edit a child");
                             System.out.println("-------------------------------");
                             editChild(scan, childs);
 
-                        }if (canswer == 3) {
+                        }if (cAnswer == 3) {
                             System.out.println("You have chose to remove a child from the list");
                             System.out.println("-------------------------------------");
                             deleteChild(scan, childs);
 
-                        }if (canswer == 4) {
+                        }if (cAnswer == 4) {
                             System.out.println("You have chosen to add a child to the waiting list." +
                                     "\n----------------------------------------------------\n");
                             RegisterChildToWaitList(scan, waitlist);
@@ -64,57 +60,58 @@ public class Main {
                             //skal der være noget her?
                         }
                         childrensMenu();
-                        canswer = scan.nextInt();
+                        cAnswer = scan.nextInt();
                     }
                     break;
                 case 2:
                     printParentsMenu();
-                    int panswer = scan.nextInt();
-                    while (panswer != 0) {
-                        if (panswer == 1) {
+                    int pAnswer = scan.nextInt();
+                    while (pAnswer != 0) {
+                        if (pAnswer == 1) {
                             System.out.println("You have chosen to register parent.");
                             System.out.println("-----------------------------------");
                             parents.add(RegisterParent(scan, childs));
 
-                        }if (panswer == 2) {
+                        }if (pAnswer == 2) {
                             System.out.println("You have chosen to edit a parent.");
                             System.out.println("---------------------------------");
                             editParent(scan, parents, childs);
 
-                        }if(panswer == 3) {
+                        }if(pAnswer == 3) {
                             System.out.println("You have chosen to delete a parent");
                             System.out.println("----------------------------------");
                             deleteParent(scan, parents);
                         }
                         printParentsMenu();
-                        panswer = scan.nextInt();
+                        pAnswer = scan.nextInt();
                     }
+                    writeToFileParent(parents);
                     break;
 
                 case 3:
                     printEmployeesMenu();
-                    int eanswer = scan.nextInt();
-                    while (eanswer != 0) {
-                        if (eanswer == 1) {
+                    int eAnswer = scan.nextInt();
+                    while (eAnswer != 0) {
+                        if (eAnswer == 1) {
                             System.out.println("You have chosen to add a new employee");
                             System.out.println("-------------------------------------");
                             RegisterEmployee(scan, employees);
 
-                        }if (eanswer == 2) {
+                        }if (eAnswer == 2) {
                             System.out.println("You have chosen to edit an employee");
                             System.out.println("-----------------------------------");
                             Employee e1 = employees.get(0);
                             editEmployee(scan, employees);
 
-                        }if (eanswer == 3) {
+                        }if (eAnswer == 3) {
                             System.out.println("You have chosen to remove an employee");
                             System.out.println("-------------------------------------");
                             deleteEmployee(scan, employees);
-                        }else if (eanswer == 0) {
+                        }else if (eAnswer == 0) {
                             break;
                         }
                         printEmployeesMenu();
-                        eanswer = scan.nextInt();
+                        eAnswer = scan.nextInt();
                     }
 
 
@@ -123,7 +120,13 @@ public class Main {
                     printList(scan, childs, waitlist, employees, parents);
                     break;
                 case 5:
-                    schedule(scheduleArray, employees.toArray(new Employee[10]), scan);
+                    System.out.println("What do you want to do?\n1. Create new schedule.\n2. Print the current schedule");
+                    int sAnswer = scan.nextInt();
+                    if(sAnswer == 1) {
+                        schedule(scheduleArray, employees.toArray(new Employee[10]), scan);
+                    }if(sAnswer == 2){
+                        readScheduleFromFile(scheduleArray);
+                }
                     break;
                 case 0:
                     writeToFileChild(childs);
@@ -389,6 +392,26 @@ public class Main {
         }
         return employees;
     }
+
+    public static void readScheduleFromFile(String[][] arr) throws IOException {
+        Scanner load = new Scanner(new File("output.txt"));
+        load.useDelimiter(";");
+        for(int i = 0; i < arr.length; i++){
+
+            for(int j = 0; j < arr[i].length; j++){
+                arr[i][j] = load.next();
+            }
+            load.nextLine();
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[0].length; j++) {
+                System.out.printf("%11s", arr[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
 
     //Metode der udskriver vores Child list
     public static void printList(Scanner scan, LinkedList<Child> childs, ArrayList<Child> waitlist,
@@ -817,22 +840,13 @@ public class Main {
     }
 
 
-    /*public static void readScheduleFromFile(String[][] arr) throws IOException {
-        Scanner load = new Scanner(new File("output.txt"));
-        load.useDelimiter("|");
-        for(int i = 0; i < arr.length; i++){
-            for(int j = 0; j < arr[i].length; j++){
-                arr[i][j] = load.next();
-            }
-        }
-    }*/
     public static void printMainMenu(){
         System.out.println("\n***** Roskilde frie børnehave hovedmenu *****\n" +
                 "\nType 1 for child menu." +
                 "\nType 2 for parent menu" +
                 "\nType 3 for coworker menu." +
                 "\nType 4 to print lists." +
-                "\nType 5 to create schedule." +
+                "\nType 5 for schedule menu." +
                 "\nType 0 to terminate program.");
     }
     public static void childrensMenu() {

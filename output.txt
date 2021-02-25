@@ -1,6 +1,6 @@
-Week: 1|Monday|Tuesday|Wednesday|Thursday|Friday|
-7:00-14:00|null|null|null|null|null|
-7:00-14:00|null|null|null|null|null|
-8:30-15:30|null|null|null|null|null|
-10:00-17:00|Anders R|null|null|null|null|
-10:00-17:00|null|null|null|null|null|
+Week: 3;Monday;Tuesday;Wednesday;Thursday;Friday;
+7:00-14:00;null;null;null;null;null;
+7:00-14:00;null;null;null;null;null;
+8:30-15:30;null;null;null;null;null;
+10:00-17:00;Birthe L;null;null;null;null;
+10:00-17:00;null;null;null;null;null;
