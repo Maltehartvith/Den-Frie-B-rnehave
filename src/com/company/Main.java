@@ -283,7 +283,7 @@ public class Main {
 
     public static void writeToFileSchedule(String[][] arr) throws FileNotFoundException {
         try{
-            PrintStream output = new PrintStream(new File("output.txt"));
+            PrintStream output = new PrintStream(new File("Schedule.txt"));
             for (int i = 0; i < arr.length; i++) {
                 String s = "";
                 for (int j = 0; j < arr[i].length; j++) {
@@ -394,7 +394,7 @@ public class Main {
     }
 
     public static void readScheduleFromFile(String[][] arr) throws IOException {
-        Scanner load = new Scanner(new File("output.txt"));
+        Scanner load = new Scanner(new File("Schedule.txt"));
         load.useDelimiter(";");
         for(int i = 0; i < arr.length; i++){
 
@@ -555,11 +555,11 @@ public class Main {
                             break;
                         case 4:
                             System.out.println("You have chosen edit child CPR\n---------------------------\nEnter new CPR: ");
-                            CPR = scan.next();
+                            String kidCPR = scan.next();
                             for (int j = 0; j < childs.size(); j++) {
-                                if (CPR.equals(childs.get(j).getCPR())) {
-                                    parent.get(j).setKid(childs.get(j));
-                                }
+                                    if (kidCPR.equals(childs.get(j).getCPR())) {
+                                        parent.get(j).setKid(childs.get(j));
+                                    }
                             }
                             break;
                         case 0:
